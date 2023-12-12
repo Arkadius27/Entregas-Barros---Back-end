@@ -31,23 +31,24 @@ class ProductManager {
 const products = new ProductManager();
 products.create({
   title: "White Shirt - Male",
-  photo: "./images/img1.png",
+  photo: "./images/imgP1.png",
   price: 15,
   stock: 30,
 });
 products.create({
   title: "Red Shirt - Female",
-  photo: "./images/img2.png",
+  photo: "./images/imgP2.png",
   price: 18,
   stock: 24,
 });
 products.create({
   title: "Blue Shorts - Kids",
-  photo: "./images/img3.png",
+  photo: "./images/imgP3.png",
   price: 25,
   stock: 45,
 });
 
 console.log(products.read());
 console.log(products.readOne(3));
+console.log(products.readOne(1));
 
