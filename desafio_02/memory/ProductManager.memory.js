@@ -1,3 +1,5 @@
+crypto = require("crypto");
+
 class ProductManager {
   // static class properties
   static #products = [];
@@ -6,10 +8,7 @@ class ProductManager {
 
   create(data) {
     const product = {
-      id:
-        ProductManager.#products.length === 0
-          ? 1
-          : ProductManager.#products[ProductManager.#products.length - 1].id + 1,
+      id: crypto.randomBytes(12).toString("hex"),
       title: data.title,
       photo: data.photo,
       price: data.price,
@@ -24,7 +23,23 @@ class ProductManager {
   }
 
   readOne(id) {
-    return ProductManager.#products.find((each) => each.id === Number(id));
+    return ProductManager.#products.find((each) => each.id === (id));
+  }
+
+  destroy(id) {
+    try {
+      const one = ProductManager.#products.find((prod) => prod.id === id);
+      if (one) {
+        ProductManager.#products.filter((prod) => prod.id !== id);
+        console.log("Product deleted");
+        return one;
+      } else {
+        throw new Error("Product not found");
+      }
+    } catch (error) {
+      console.log(error.message);
+      return error.message;
+    }
   }
 }
 
@@ -52,3 +67,5 @@ console.log(products.read());
 console.log(products.readOne(3));
 console.log(products.readOne(1));
 
+console.log(products.destroy(1));
+console.log(products.destroy(17)); // error, doesn't exist
