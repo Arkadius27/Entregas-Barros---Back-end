@@ -13,16 +13,6 @@ class UserManager {
     }
   }
 
-  // ------------------ OR ------------------ ???
-  // init() {
-  //   let data = fs.readFileSync(this.filePath, "utf-8");
-  //   if (data) {
-  //     this.data = JSON.parse(data);
-  //   } else {
-  //     this.data = [];
-  //   }
-  // }
-
   constructor(path) {
     this.path = path;
     this.init();
