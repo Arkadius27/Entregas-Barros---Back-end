@@ -89,7 +89,7 @@ class UserManager {
     try {
       const one = UserManager.#users.find((user) => user.id === id);
       if (one) {
-        UserManager.#users.filter((user) => user.id !== id);
+        UserManager.#users = UserManager.#users.filter((user) => user.id !== id);
         await fs.promises.writeFile(
           this.path,
           JSON.stringify(UserManager.#users, null, 2)
@@ -106,21 +106,6 @@ class UserManager {
   }
 }
 
-export default UserManager;
-
 const users = new UserManager("./data/fs/files/users.json");
 
-await users.create({
-  name: "Agustin Barros",
-  photo: "img/agustinphoto.png",
-  email: "agustin@email.com",
-});
-await users.create({
-  name: "Juan Perez",
-  photo: "img/juanphoto.png",
-  email: "juan@email.com",
-});
-
-users.read();
-
-users.readOne("123456789"); // User not found
+export default users;

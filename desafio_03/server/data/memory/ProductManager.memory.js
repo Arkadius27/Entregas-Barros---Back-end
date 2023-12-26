@@ -30,7 +30,7 @@ class ProductManager {
     try {
       const one = ProductManager.#products.find((prod) => prod.id === id);
       if (one) {
-        ProductManager.#products.filter((prod) => prod.id !== id);
+        ProductManager.#products = ProductManager.#products.filter((prod) => prod.id !== id);
         console.log("Product deleted");
         return one;
       } else {

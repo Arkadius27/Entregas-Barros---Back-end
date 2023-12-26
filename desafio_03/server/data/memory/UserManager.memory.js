@@ -27,13 +27,9 @@ class UserManager {
 
   destroy(id) {
     try {
-      const one = UserManager.#users.find((user) => user.id === id);
+      const one = UserManager.#users.find((prod) => prod.id === id);
       if (one) {
-        UserManager.#users.filter((user) => user.id !== id);
-        fs.promises.writeFile(
-          this.path,
-          JSON.stringify(UserManager.#users, null, 2)
-        );
+        UserManager.#users = UserManager.#users.filter((prod) => prod.id !== id);
         console.log("User deleted");
         return one;
       } else {
@@ -64,4 +60,3 @@ users.create({
 });
 
 console.log(users.read());
-console.log(users.readOne(2));

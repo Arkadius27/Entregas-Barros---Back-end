@@ -9,7 +9,9 @@ class ProductManager {
     if (!exists) {
       fs.writeFileSync(this.path, JSON.stringify([], null, 2));
     } else {
-      ProductManager.#products = JSON.parse(fs.readFileSync(this.path, "utf-8"));
+      ProductManager.#products = JSON.parse(
+        fs.readFileSync(this.path, "utf-8")
+      );
     }
   }
 
@@ -86,7 +88,9 @@ class ProductManager {
     try {
       const one = ProductManager.#products.find((prod) => prod.id === id);
       if (one) {
-        ProductManager.#products.filter((prod) => prod.id !== id);
+        ProductManager.#products = ProductManager.#products.filter(
+          (prod) => prod.id !== id
+        );
         await fs.promises.writeFile(
           this.path,
           JSON.stringify(ProductManager.#products, null, 2)
@@ -103,27 +107,6 @@ class ProductManager {
   }
 }
 
-export default ProductManager;
-
 const products = new ProductManager("./data/fs/files/products.json");
 
-await products.create({
-  title: "PS5",
-  photo: "img/ps5photo.png",
-  price: 750,
-  stock: 10,
-});
-await products.create({
-  title: "Xbox Series X",
-  photo: "img/xboxphoto.png",
-  price: 700,
-  stock: 8,
-});
-
-products.read();
-
-products.readOne("1"); // retorna "product not found"
-products.readOne("84a865f00ab91f21d59c5543"); // retorna el producto con ese id
-
-products.destroy("1"); // retorna "product not found"
-products.destroy("9f90d05b5c6a817728412ae4"); // borra el producto
+export default products;
