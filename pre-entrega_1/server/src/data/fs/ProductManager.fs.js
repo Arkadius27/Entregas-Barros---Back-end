@@ -23,7 +23,7 @@ class ProductManager {
   async create(data) {
     try {
       if (!data.title || !data.photo || !data.price || !data.stock) {
-        throw new Error("Missing data for product creation");
+        return "Missing data for product creation";
       } else {
         const one = {
           id: crypto.randomBytes(12).toString("hex"),
@@ -40,7 +40,8 @@ class ProductManager {
         return one;
       }
     } catch (error) {
-      return next();
+      console.log(error.message);
+      return error.message;
     }
   }
 
@@ -49,11 +50,11 @@ class ProductManager {
       if (ProductManager.#products.length === 0) {
         throw new Error("No products found");
       } else {
-       // console.log(ProductManager.#products);
         return ProductManager.#products;
       }
     } catch (error) {
-      return next();
+      console.log(error.message);
+      return error.message;
     }
   }
 
@@ -67,9 +68,41 @@ class ProductManager {
         throw new Error("Product not found");
       }
     } catch (error) {
-      return next();
+      console.log(error.message);
+      return error.message;
     }
   }
+
+  async update(id, data) {
+    try {
+      const one = ProductManager.#products.find((prod) => prod.id === id);
+      if (one) {
+        if (data.title) {
+          one.title = data.title;
+        }
+        if (data.photo) {
+          one.photo = data.photo;
+        }
+        if (data.price) {
+          one.price = data.price;
+        }
+        if (data.stock) {
+          one.stock = data.stock;
+        }
+        await fs.promises.writeFile(
+          this.path,
+          JSON.stringify(ProductManager.#products, null, 2)
+        );
+        console.log("Product updated");
+        return one;
+      } else {
+        throw new Error("Product not found");
+      }
+    } catch (error) {
+      console.log(error.message);
+      return error.message;
+    }
+  };
 
   async destroy(id) {
     try {
@@ -85,10 +118,11 @@ class ProductManager {
         console.log("Product deleted");
         return one;
       } else {
-        throw new Error("Product not found");
+        return "Product not found";
       }
     } catch (error) {
-      return next();
+      console.log(error.message);
+      return error.message;
     }
   }
 }

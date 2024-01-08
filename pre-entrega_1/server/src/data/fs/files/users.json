@@ -7,9 +7,9 @@
   },
   {
     "id": "5a5b9c4c6a4cca53af521b11",
-    "name": "Agustin Barros",
-    "photo": "img/agustinphoto.png",
-    "email": "agustin@email.com"
+    "name": "Javier de Mattos",
+    "photo": "img/javaphoto.png",
+    "email": "java@email.com"
   },
   {
     "id": "37025332e3e713bb22c3d5f9",
@@ -18,87 +18,15 @@
     "email": "diego@email.com"
   },
   {
-    "id": "c119948a23f6da6942dd48b1",
-    "name": "Agustin Barros",
-    "photo": "img/agustinphoto.png",
-    "email": "agustin@email.com"
+    "id": "0d8234e568ff17b9aebc8566",
+    "name": "Mateo Zapater",
+    "photo": "img/mateophoto.png",
+    "email": "mateo@email.com"
   },
   {
-    "id": "c7aaf0c3a7a052c5c58b3b1f",
-    "name": "Diego Franggi",
-    "photo": "img/diegophoto.png",
-    "email": "diego@email.com"
-  },
-  {
-    "id": "eb833c01e4f4bb2431b5d78e",
-    "name": "Agustin Barros",
-    "photo": "img/agustinphoto.png",
-    "email": "agustin@email.com"
-  },
-  {
-    "id": "e3d4487be641680d46f6cb6c",
-    "name": "Diego Franggi",
-    "photo": "img/diegophoto.png",
-    "email": "diego@email.com"
-  },
-  {
-    "id": "ff99edbcd3863b8c7418d4a3",
-    "name": "Agustin Barros",
-    "photo": "img/agustinphoto.png",
-    "email": "agustin@email.com"
-  },
-  {
-    "id": "37421b1301574f5af937dc6c",
-    "name": "Diego Franggi",
-    "photo": "img/diegophoto.png",
-    "email": "diego@email.com"
-  },
-  {
-    "id": "42d408bc19fda6ac5a3d2196",
-    "name": "Agustin Barros",
-    "photo": "img/agustinphoto.png",
-    "email": "agustin@email.com"
-  },
-  {
-    "id": "8d012cf40708ef1e7b797546",
-    "name": "Diego Franggi",
-    "photo": "img/diegophoto.png",
-    "email": "diego@email.com"
-  },
-  {
-    "id": "455163ce08ad68769f7bf4d9",
-    "name": "Agustin Barros",
-    "photo": "img/agustinphoto.png",
-    "email": "agustin@email.com"
-  },
-  {
-    "id": "d9b7d459ecd204da38f66f67",
-    "name": "Diego Franggi",
-    "photo": "img/diegophoto.png",
-    "email": "diego@email.com"
-  },
-  {
-    "id": "5fc37c21ed4f6bd5969d4812",
-    "name": "Agustin Barros",
-    "photo": "img/agustinphoto.png",
-    "email": "agustin@email.com"
-  },
-  {
-    "id": "ce8c233aa43a39ba001dc459",
-    "name": "Diego Franggi",
-    "photo": "img/diegophoto.png",
-    "email": "diego@email.com"
-  },
-  {
-    "id": "6e52176377baa6052352acfc",
-    "name": "Agustin Barros",
-    "photo": "img/agustinphoto.png",
-    "email": "agustin@email.com"
-  },
-  {
-    "id": "9edd5dd5f6e58c3296706b4f",
-    "name": "Diego Franggi",
-    "photo": "img/diegophoto.png",
-    "email": "diego@email.com"
+    "id": "2e84b03cdb25f1302e78cae6",
+    "name": "Felipe Ciganda",
+    "photo": "img/felipephoto.png",
+    "email": "felipe@email.com"
   }
 ]

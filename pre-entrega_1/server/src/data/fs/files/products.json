@@ -1,37 +1,9 @@
 [
   {
-    "id": "73064d67de6c900bd24c993c",
-    "title": "PS5",
-    "photo": "img/ps5photo.png",
-    "price": 750,
-    "stock": 10
-  },
-  {
     "id": "85207447e68c9d9218fb12e0",
     "title": "PS5",
     "photo": "img/ps5photo.png",
-    "price": 750,
-    "stock": 10
-  },
-  {
-    "id": "15f1782b45fb7c878d1d95db",
-    "title": "PS5",
-    "photo": "img/ps5photo.png",
-    "price": 750,
-    "stock": 10
-  },
-  {
-    "id": "153bda6c8941d395f995ff84",
-    "title": "Xbox Series X",
-    "photo": "img/xboxphoto.png",
-    "price": 600,
-    "stock": 12
-  },
-  {
-    "id": "f1ffe03948b784ab4b7f4ad1",
-    "title": "PS5",
-    "photo": "img/ps5photo.png",
-    "price": 750,
+    "price": 850,
     "stock": 10
   },
   {
@@ -42,59 +14,24 @@
     "stock": 12
   },
   {
-    "id": "5e15b0eb05f0814b217f2f3b",
-    "title": "PS5",
-    "photo": "img/ps5photo.png",
-    "price": 750,
-    "stock": 10
+    "id": "0de59c6beb01edec1f3b56d4",
+    "title": "Switch Oled",
+    "photo": "img/nsphoto.png",
+    "price": 550,
+    "stock": 15
   },
   {
-    "id": "e60907dd8b3578246fead589",
-    "title": "Xbox Series X",
-    "photo": "img/xboxphoto.png",
-    "price": 600,
-    "stock": 12
+    "id": "db35c8ce33a4ed0bca19679b",
+    "title": "Steam Deck",
+    "photo": "img/sdphoto.png",
+    "price": "900",
+    "stock": "3"
   },
   {
-    "id": "7b3a9800d306a335f28fabec",
-    "title": "PS5",
-    "photo": "img/ps5photo.png",
-    "price": 750,
-    "stock": 10
-  },
-  {
-    "id": "c291b9afdc7a3de85d6cd3c7",
-    "title": "Xbox Series X",
-    "photo": "img/xboxphoto.png",
-    "price": 600,
-    "stock": 12
-  },
-  {
-    "id": "977883e95ad8789e0133ce7f",
-    "title": "PS5",
-    "photo": "img/ps5photo.png",
-    "price": 750,
-    "stock": 10
-  },
-  {
-    "id": "df1cb5a117084487db682837",
-    "title": "Xbox Series X",
-    "photo": "img/xboxphoto.png",
-    "price": 600,
-    "stock": 12
-  },
-  {
-    "id": "406a01e8340730ab514f4206",
-    "title": "PS5",
-    "photo": "img/ps5photo.png",
-    "price": 750,
-    "stock": 10
-  },
-  {
-    "id": "b03a0c3e529e2ea831ed9d17",
-    "title": "Xbox Series X",
-    "photo": "img/xboxphoto.png",
-    "price": 600,
-    "stock": 12
+    "id": "702b6417b43d20f00f9aa237",
+    "title": "ROG Ally",
+    "photo": "img/rogphoto.png",
+    "price": "1050",
+    "stock": "4"
   }
 ]

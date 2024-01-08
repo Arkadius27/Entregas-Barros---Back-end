@@ -21,7 +21,7 @@ class UserManager {
   async create(data) {
     try {
       if (!data.name || !data.photo || !data.email) {
-        throw new Error("Missing data for user creation");
+        return "Missing data for user creation";
       } else {
         const user = {
           id: crypto.randomBytes(12).toString("hex"),
@@ -37,7 +37,8 @@ class UserManager {
         return user;
       }
     } catch (error) {
-      return next();
+      console.log(error.message);
+      return error.message;
     }
   }
 
@@ -50,7 +51,8 @@ class UserManager {
         return UserManager.#users;
       }
     } catch (error) {
-      return next();
+      console.log(error.message);
+      return error.message;
     }
   }
 
@@ -68,7 +70,8 @@ class UserManager {
         }
       }
     } catch (error) {
-      return next();
+      console.log(error.message);
+      return error.message;
     }
   }
 
@@ -87,7 +90,8 @@ class UserManager {
         throw new Error("User not found");
       }
     } catch (error) {
-      return next();
+      console.log(error.message);
+      return error.message;
     }
   }
 }
