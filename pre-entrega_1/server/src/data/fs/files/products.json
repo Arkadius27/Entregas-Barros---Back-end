@@ -1,0 +1,37 @@
+[
+  {
+    "id": "85207447e68c9d9218fb12e0",
+    "title": "PS5",
+    "photo": "img/ps5photo.png",
+    "price": 850,
+    "stock": 10
+  },
+  {
+    "id": "d9763551026b60420d8381a0",
+    "title": "Xbox Series X",
+    "photo": "img/xboxphoto.png",
+    "price": 600,
+    "stock": 12
+  },
+  {
+    "id": "0de59c6beb01edec1f3b56d4",
+    "title": "Switch Oled",
+    "photo": "img/nsphoto.png",
+    "price": 550,
+    "stock": 15
+  },
+  {
+    "id": "db35c8ce33a4ed0bca19679b",
+    "title": "Steam Deck",
+    "photo": "img/sdphoto.png",
+    "price": "900",
+    "stock": "3"
+  },
+  {
+    "id": "702b6417b43d20f00f9aa237",
+    "title": "ROG Ally",
+    "photo": "img/rogphoto.png",
+    "price": "1050",
+    "stock": "4"
+  }
+]
