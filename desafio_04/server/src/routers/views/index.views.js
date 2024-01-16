@@ -1,5 +1,5 @@
 import { Router } from "express";
-import productsRouter from "./products.views.js";
+import realRouter from "./products.views.js";
 
 const viewsRouter = Router();
 
@@ -12,6 +12,6 @@ viewsRouter.get("/", (req, res, next) => {
   }
 });
 
-viewsRouter.use("/products", productsRouter);
+viewsRouter.use("/products", realRouter);
 
 export default viewsRouter;

@@ -12,4 +12,12 @@ productsRouter.get("/", async (req, res, next) => {
   }
 });
 
+productsRouter.get("/add", (req, res, next) => {
+  try {
+    return res.render("add");
+  } catch (error) {
+    return next(error);
+  }
+});
+
 export default productsRouter;
