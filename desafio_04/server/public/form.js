@@ -1,15 +1,11 @@
 const socket = io();
 
-socket.on("welcome", (message) => {
-  alert(message);
+socket.on("all products", (data) => {
+  console.log(data);
 });
 
-socket.on("new success", (message) => {
-  alert(message);
-});
-
-document.querySelector("#submitProduct").addEventListener("click", (product) => {
-  product.preventDefault();
+document.querySelector("#submitProduct").addEventListener("click", (event) => {
+  event.preventDefault();
   const title = document.querySelector("#title").value;
   const photo = document.querySelector("#photo").value;
   const price = document.querySelector("#price").value;
@@ -22,5 +18,9 @@ document.querySelector("#submitProduct").addEventListener("click", (product) => 
 
   console.log(data);
 
-  // socket.emit("new product", data);
+  socket.emit("new product", data);
+});
+
+socket.on("new success", (message) => {
+  alert(message);
 });

@@ -21,14 +21,15 @@ const httpServer = createServer(server);
 const socketServer = new Server(httpServer);
 
 httpServer.listen(PORT, readyMessage);
+
 socketServer.on("connection", (socket) => {
   console.log(socket.id);
-  socket.emit("welcome", "Welcome to Global Technology");
+  socket.emit("all products", products.read());
   socket.on("new product", async (data) => {
     try {
       console.log(data);
       await products.create(data);
-      socket.emit("new success", "Product created successfully")
+      socket.emit("new success", "Product created successfully");
     } catch (error) {
       console.log(error);
     }
