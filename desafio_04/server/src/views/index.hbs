@@ -1,7 +1,19 @@
-<main>
-  <h1 class="fw-bold">Global Technology - the smart option</h1>
-  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque dicta ullam tenetur quo iure fugiat totam alias. Sed reprehenderit aspernatur harum, dolor quas ipsum quasi amet repellendus, cum repellat blanditiis.
-  Laboriosam deleniti enim hic vel explicabo illo necessitatibus facilis molestiae distinctio! Quo labore, animi, pariatur accusamus minima perspiciatis aut earum rem deserunt eveniet laboriosam ea libero exercitationem ipsum consequatur vero!</p>
-  <p>Amet consectetur adipisicing elit. Ipsam voluptate impedit, reiciendis eveniet blanditiis itaque optio excepturi ratione veniam ex ut obcaecati dolorum consectetur iure pariatur debitis laborum aut deleniti.
-  Illum, porro laboriosam doloremque quia consequatur enim pariatur placeat molestias excepturi consequuntur mollitia fugit. Aut excepturi expedita nihil deleniti, cum est ratione laboriosam odit quidem! Error esse in corporis perferendis.</p>
+<main class="my-3">
+  <img src="/images/logo.PNG" alt="logo">
+  <h1>The smart option</h1>
+  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam
+    deleniti enim hic vel explicabo illo necessitatibus facilis molestiae
+    distinctio!</p>
+  <div class="card-container d-flex flex-wrap justify-content-center my-5">
+    {{#each products}}
+      <div class="card" style="width: 18rem;">
+        <img src="{{this.photo}}" class="card-img-top" alt="{{this.title}}" />
+        <div class="card-body">
+          <h5 class="card-title fw-bolder">{{this.title}}</h5>
+          <p class="card-text">${{this.price}}</p>
+          <p class="card-text fw-light">{{this.stock}} units in stock</p>
+        </div>
+      </div>
+    {{/each}}
+  </div>
 </main>

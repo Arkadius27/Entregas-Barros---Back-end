@@ -1,17 +1,24 @@
 import { Router } from "express";
-import realRouter from "./products.views.js";
+import productsRouter from "./products.views.js";
+import usersRouter from "./users.views.js";
+import products from "../../data/fs/ProductManager.fs.js";
 
 const viewsRouter = Router();
 
-viewsRouter.get("/", (req, res, next) => {
+viewsRouter.get("/", async (req, res, next) => {
   try {
-    const mainProducts = ["PS5", "Xbox Series X", "Switch Oled"]
-    return res.render("index", {products: mainProducts});
+    const all = await products.read();
+    return res.render("index", { products: all });
   } catch (error) {
     return next(error);
   }
 });
 
-viewsRouter.use("/products", realRouter);
+// viewsRouter.get("/", (req, res, next) => {
+
+// });
+
+viewsRouter.use("/products", productsRouter);
+viewsRouter.use("/users", usersRouter);
 
 export default viewsRouter;

@@ -12,9 +12,9 @@ productsRouter.get("/", async (req, res, next) => {
   }
 });
 
-productsRouter.get("/add", (req, res, next) => {
+productsRouter.get("/form", (req, res, next) => {
   try {
-    return res.render("add");
+    return res.render("form");
   } catch (error) {
     return next(error);
   }

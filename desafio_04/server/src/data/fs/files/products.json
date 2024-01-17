@@ -10,7 +10,7 @@
     "id": "d9763551026b60420d8381a0",
     "title": "Xbox Series X",
     "photo": "https://http2.mlstatic.com/D_Q_NP_718831-MLA70799537227_072023-O.webp",
-    "price": 600,
+    "price": 650,
     "stock": 12
   },
   {
@@ -33,5 +33,12 @@
     "photo": "https://jsaux.com/cdn/shop/files/JSAUX-ModCase-for-ROG-Ally-Basic-Set-8.jpg?v=1700113942&width=1600",
     "price": "1050",
     "stock": "4"
+  },
+  {
+    "id": "24780750bd717c52d444b58f",
+    "title": "Xbox Series S",
+    "photo": "https://m.media-amazon.com/images/I/61f1agMOeTL.jpg",
+    "price": 575,
+    "stock": 7
   }
 ]
