@@ -1,22 +1,22 @@
 <form class="w-50 m-auto my-5">
   <div class="mb-3">
-    <label for="exampleInputEmail1" class="form-label">Title</label>
+    <label id="title" for="exampleInputEmail1" class="form-label">Title</label>
     <input type="text" class="form-control">
   </div>
   <div class="mb-3">
-    <label for="exampleInputPassword1" class="form-label">Photo URL</label>
+    <label id="photo" for="exampleInputPassword1" class="form-label">Photo URL</label>
     <input type="url" class="form-control">
   </div>
   <div class="mb-3">
-    <label for="exampleInputPassword1" class="form-label">Price</label>
+    <label id="price" for="exampleInputPassword1" class="form-label">Price</label>
     <input type="number" class="form-control">
   </div>
   <div class="mb-3">
-    <label for="exampleInputPassword1" class="form-label">Stock</label>
+    <label id="stock" for="exampleInputPassword1" class="form-label">Stock</label>
     <input type="number" class="form-control">
   </div>
   
-  <button type="submit" class="btn btn-primary">Create</button>
+  <button id="submitProduct" type="submit" class="btn btn-primary">Create</button>
 </form>
 <script src="/socket.io/socket.io.js"></script>
 <script src="/form.js"></script>
