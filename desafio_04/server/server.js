@@ -23,13 +23,12 @@ const socketServer = new Server(httpServer);
 httpServer.listen(PORT, readyMessage);
 
 socketServer.on("connection", (socket) => {
-  // console.log(socket.id);
+  console.log(`client ${socket.id} connected`);
   socket.emit("all products", products.read());
   socket.on("new product", async (data) => {
     try {
-      // console.log(data);
       await products.create(data);
-      socket.emit("all products", products.read());
+      socketServer.emit("all products", await products.read());
     } catch (error) {
       console.log(error);
     }
