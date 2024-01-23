@@ -14,10 +14,6 @@ viewsRouter.get("/", async (req, res, next) => {
   }
 });
 
-// viewsRouter.get("/", (req, res, next) => {
-
-// });
-
 viewsRouter.use("/products", productsRouter);
 viewsRouter.use("/users", usersRouter);
 

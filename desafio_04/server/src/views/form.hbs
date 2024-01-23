@@ -1,21 +1,21 @@
 <form id="productForm" class="w-50 m-auto my-5">
   <div class="mb-3">
-    <label id="title" for="exampleInputEmail1" class="form-label">Title</label>
-    <input type="text" class="form-control" name="title">
+    <label for="title" for="exampleInputEmail1" class="form-label">Title</label>
+    <input type="text" class="form-control" id="title">
   </div>
   <div class="mb-3">
-    <label id="photo" for="exampleInputPassword1" class="form-label">Photo URL</label>
-    <input type="text" class="form-control" name="photo">
+    <label for="photo" for="exampleInputPassword1" class="form-label">Photo URL</label>
+    <input type="text" class="form-control" id="photo">
   </div>
   <div class="mb-3">
-    <label id="price" for="exampleInputPassword1" class="form-label">Price</label>
-    <input type="number" class="form-control" name="price">
+    <label for="price" for="exampleInputPassword1" class="form-label">Price</label>
+    <input type="number" class="form-control" id="price">
   </div>
   <div class="mb-3">
-    <label id="stock" for="exampleInputPassword1" class="form-label">Stock</label>
-    <input type="number" class="form-control" name="stock">
+    <label for="stock" for="exampleInputPassword1" class="form-label">Stock</label>
+    <input type="number" class="form-control" id="stock">
   </div>
-  <button id="submitProduct" type="submit" class="btn btn-primary">Create</button>
+  <button id="submitProduct" type="button" class="btn btn-primary">Create</button>
 </form>
 <script src="/socket.io/socket.io.js"></script>
 <script src="/form.js"></script>

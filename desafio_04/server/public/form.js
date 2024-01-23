@@ -1,9 +1,5 @@
 const socket = io();
 
-socket.on("all products", (data) => {
-  console.log(data);
-});
-
 document.querySelector("#submitProduct").addEventListener("click", (event) => {
   event.preventDefault();
   const title = document.querySelector("#title").value;
@@ -19,8 +15,4 @@ document.querySelector("#submitProduct").addEventListener("click", (event) => {
   console.log(data);
 
   socket.emit("new product", data);
-});
-
-socket.on("new success", (message) => {
-  alert(message);
 });

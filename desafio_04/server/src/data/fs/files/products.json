@@ -40,5 +40,12 @@
     "photo": "https://m.media-amazon.com/images/I/61f1agMOeTL.jpg",
     "price": 575,
     "stock": 7
+  },
+  {
+    "id": "9be626f3920ab61305973df4",
+    "title": "Gamer PC (i7/16GB/2TB/RTX4060)",
+    "photo": "https://static.gigabyte.com/StaticFile/Image/Global/ca32672b9043dd07dcf7ff6b54eeff66/Product/28596/png/300",
+    "price": "1599",
+    "stock": "1"
   }
 ]
