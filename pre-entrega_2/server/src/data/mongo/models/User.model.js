@@ -17,7 +17,7 @@ const schema = new Schema({
     unique: true,
     required: true,
   },
-});
+}, { timestamps: true });
 
 const User = model(collection, schema);
 export default User;

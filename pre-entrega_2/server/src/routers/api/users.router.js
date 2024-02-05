@@ -1,5 +1,6 @@
 import { Router } from "express";
-import users from "../../data/fs/UserManager.fs.js"
+// import users from "../../data/fs/UserManager.fs.js"
+import { users } from "../../data/mongo/Manager.mongo.js";
 
 const usersRouter = Router();
 
@@ -18,7 +19,7 @@ usersRouter.post("/", async (req, res, next) => {
 });
 
 usersRouter.get("/", async (req, res, next) => {
-  const allUsers = await users.read();
+  const allUsers = await users.read({});
   try {
     if (Array.isArray(allUsers)) {
       return res.status(200).json({ success: true, response: allUsers });
@@ -38,6 +39,35 @@ usersRouter.get("/:uid", async (req, res, next) => {
       return res.status(200).json({ success: true, response: oneUser });
     } else {
       return res.status(404).json({ success: false, error: oneUser });
+    }
+  } catch (error) {
+    return next(error);
+  }
+});
+
+usersRouter.put("/:uid", async (req, res, next) => {
+  try {
+    const { uid } = req.params;
+    const data = req.body;
+    const updatedUser = await users.update(uid, data);
+    if (typeof updatedUser === "object") {
+      return res.status(200).json({ success: true, response: updatedUser });
+    } else {
+      return res.status(404).json({ success: false, error: updatedUser });
+    }
+  } catch (error) {
+    return next(error);
+  }
+});
+
+usersRouter.delete("/:uid", async (req, res, next) => {
+  try {
+    const { uid } = req.params;
+    const deletedUser = await users.destroy(uid);
+    if (typeof deletedUser === "object") {
+      return res.status(200).json({ success: true, response: deletedUser });
+    } else {
+      return res.status(404).json({ success: false, error: deletedUser });
     }
   } catch (error) {
     return next(error);

@@ -5,7 +5,7 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 
 import "dotenv/config.js";
-import dbConnection from "./src/utils/db.js";
+import dbConnection from "./src/utils/dbConnection.js";
 
 import router from "./src/routers/index.router.js";
 import errorHandler from "./src/middlewares/errorHandler.js";
@@ -15,7 +15,7 @@ import __dirname from "./utils.js";
 import products from "./src/data/fs/ProductManager.fs.js";
 
 const server = express();
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 const readyMessage = () => {
   console.log(`Server running on port ${PORT}`);
   dbConnection();

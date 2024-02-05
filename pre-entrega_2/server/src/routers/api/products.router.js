@@ -1,5 +1,6 @@
 import { Router } from "express";
-import products from "../../data/fs/ProductManager.fs.js";
+// import products from "../../data/fs/ProductManager.fs.js";
+import { products } from "../../data/mongo/Manager.mongo.js";
 
 const productsRouter = Router();
 
@@ -18,8 +19,10 @@ productsRouter.post("/", async (req, res, next) => {
 });
 
 productsRouter.get("/", async (req, res, next) => {
-  const allProducts = await products.read();
   try {
+    const filter = { category: req.query.category };
+    const sort = { title: req.query.sort };
+    const allProducts = await products.read({});
     if (Array.isArray(allProducts)) {
       return res.status(200).json({ success: true, response: allProducts });
     } else {

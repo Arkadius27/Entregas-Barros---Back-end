@@ -3,7 +3,7 @@ import { connect } from "mongoose";
 const dbConnection = async () => {
   try {
     await connect(process.env.DB_LINK);
-    console.log("connected to database");
+    console.log("database is connected");
   } catch (error) {
     console.log(error);
   }

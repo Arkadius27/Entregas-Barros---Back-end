@@ -1,5 +1,6 @@
 import { Router } from "express";
-import orders from "../../data/fs/OrdersManager.fs.js";
+// import orders from "../../data/fs/OrdersManager.fs.js";
+import { orders } from "../../data/mongo/Manager.mongo.js";
 
 const ordersRouter = Router();
 
@@ -17,14 +18,48 @@ ordersRouter.post("/", async (req, res, next) => {
   }
 });
 
+ordersRouter.get("/", async (req, res, next) => {
+  try {
+    let filter = {};
+    if (req.query.uid) {
+      filter = {uid: req.query.uid};
+    }
+    const allOrders = await orders.read({filter});
+    if (Array.isArray(allOrders)) {
+      return res.status(200).json({ success: true, response: allOrders });
+    } else {
+      return res.status(404).json({ success: false, error: allOrders });
+    }
+  } catch (error) {
+    return next(error);
+  }
+});
+
 ordersRouter.get("/:oid", async (req, res, next) => {
   try {
     const { oid } = req.params;
-    const userOrders = await orders.readByUser(oid);
-    if (typeof userOrders === "object") {
-      return res.status(200).json({ success: true, response: userOrders });
+    const oneOrder = await orders.readOne(oid);
+    if (typeof oneOrder === "object") {
+      return res.status(200).json({ success: true, response: oneOrder });
     } else {
-      return res.status(404).json({ success: false, error: userOrders });
+      return res.status(404).json({ success: false, error: oneOrder });
+    }
+  } catch (error) {
+    return next(error);
+  }
+});
+
+//ordersRouter.get("/total/:uid", async (req, res, next) => {});
+
+ordersRouter.put("/:oid", async (req, res, next) => {
+  const { oid } = req.params;
+  const data = req.body;
+  const updatedOrder = await orders.update(oid, data);
+  try {
+    if (typeof updatedOrder === "object") {
+      return res.status(200).json({ success: true, response: updatedOrder });
+    } else {
+      return res.status(400).json({ success: false, error: updatedOrder });
     }
   } catch (error) {
     return next(error);
