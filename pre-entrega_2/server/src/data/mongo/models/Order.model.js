@@ -1,4 +1,5 @@
 import { model, Schema, Types } from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2";
 
 const collection = "orders";
 
@@ -25,9 +26,11 @@ const schema = new Schema({
   }, { timestamps: true }
 );
 
-// agregar PRE
+schema.plugin(mongoosePaginate);
+
 schema.pre("find", function () {
-  this.populate("pid", "_id title price").populate("uid", "-photo -__v -createdAt -updatedAt");
+  this.populate("pid", "_id title price")
+      .populate("uid", "-photo -__v -createdAt -updatedAt");
 });
 
 const Order = model(collection, schema);

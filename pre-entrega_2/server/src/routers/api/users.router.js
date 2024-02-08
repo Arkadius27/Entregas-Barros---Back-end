@@ -19,8 +19,21 @@ usersRouter.post("/", async (req, res, next) => {
 });
 
 usersRouter.get("/", async (req, res, next) => {
-  const allUsers = await users.read({});
   try {
+    const sortAndPaginate = {
+      limit: req.query.limit || 10,
+      page: req.query.page || 1,
+    }
+    const filter = {};
+    if (req.query.email) {
+      filter.email = new RegExp(req.query.email.trim(), "i");
+    }
+    if (req.query.name === "desc") {
+      sortAndPaginate.sort = { name: -1 };
+    } else {
+      sortAndPaginate.sort = { name: 1 };
+    }
+    const allUsers = await users.read({filter, sortAndPaginate});
     if (Array.isArray(allUsers)) {
       return res.status(200).json({ success: true, response: allUsers });
     } else {

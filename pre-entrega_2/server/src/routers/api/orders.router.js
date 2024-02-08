@@ -20,9 +20,21 @@ ordersRouter.post("/", async (req, res, next) => {
 
 ordersRouter.get("/", async (req, res, next) => {
   try {
-    let filter = {};
+    const sortAndPaginate = {
+      limit: req.query.limit || 20,
+      page: req.query.page || 1,
+    }
+    const filter = {};
     if (req.query.uid) {
-      filter = { uid: req.query.uid };
+      filter.uid = req.query.uid;
+    }
+    if (req.query.status) {
+      filter.status = req.query.status;
+    }
+    if (req.query.status === "desc") {
+      sortAndPaginate.sort = { status: -1 }
+    } else {
+      sortAndPaginate.sort = { status: 1 }
     }
     const allOrders = await orders.read({ filter });
     if (Array.isArray(allOrders)) {
@@ -73,6 +85,20 @@ ordersRouter.put("/:oid", async (req, res, next) => {
       return res.status(200).json({ success: true, response: updatedOrder });
     } else {
       return res.status(400).json({ success: false, error: updatedOrder });
+    }
+  } catch (error) {
+    return next(error);
+  }
+});
+
+ordersRouter.get("/total/:uid", async (req, res, next) => {
+  try {
+    const { uid } = req.params;
+    const report = await orders.report(uid);
+    if (Array.isArray(report)) {
+      return res.status(200).json({ success: true, response: report });
+    } else {
+      return res.status(404).json({ success: false, error: report });
     }
   } catch (error) {
     return next(error);

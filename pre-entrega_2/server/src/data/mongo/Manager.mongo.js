@@ -1,3 +1,5 @@
+import { Types } from "mongoose";
+
 import User from "./models/User.model.js";
 import Product from "./models/Product.model.js";
 import Order from "./models/Order.model.js";
@@ -18,10 +20,10 @@ class MongoManager {
     }
   }
 
-  async read({ filter, sort }) {
+  async read({ filter, sortAndPaginate }) {
     try {
-      const all = await this.model.find(filter).sort(sort);
-      if (all.length === 0) {
+      const all = await this.model.paginate(filter, sortAndPaginate);
+      if (all.totalPages === 0) {
         const error = new Error("No documents found");
         error.status = 404;
         throw error;
@@ -53,9 +55,42 @@ class MongoManager {
     }
   }
 
-  // async report(uid) {
-  //
-  // }
+  async report(uid) {
+    try {
+      const report = await this.model.aggregate([
+        { $match: { uid: new Types.ObjectId(uid) } },
+        {
+          $lookup: {
+            from: "products",
+            foreignField: "_id",
+            localField: "pid",
+            as: "pid",
+          },
+        },
+        {
+          $replaceRoot: {
+            newRoot: {
+              $mergeObjects: [{ $arrayElemAt: ["$pid", 0] }, "$$ROOT"],
+            },
+          },
+        },
+        { $set: { subtotal: { $multiply: ["$price", "$quantity"] } } },
+        { $group: { _id: uid, total: { $sum: "$subtotal" } } },
+        {
+          $project: {
+            _id: 0,
+            uid: "$_id",
+            total: "$total",
+            currency: "USD",
+            date: new Date(),
+          },
+        },
+      ]);
+      return report;
+    } catch (error) {
+      throw error;
+    }
+  }
 
   async destroy(id) {
     try {
