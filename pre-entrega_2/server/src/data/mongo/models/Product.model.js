@@ -7,6 +7,7 @@ const schema = new Schema(
     title: {
       type: String,
       required: true,
+      index: true,
     },
     photo: {
       type: String,
@@ -16,6 +17,7 @@ const schema = new Schema(
     price: {
       type: Number,
       required: true,
+      index: true,
     },
     stock: {
       type: Number,

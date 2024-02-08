@@ -16,6 +16,7 @@ const schema = new Schema({
     type: String,
     unique: true,
     required: true,
+    index: true,
   },
 }, { timestamps: true });
 

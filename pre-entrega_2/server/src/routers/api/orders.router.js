@@ -22,9 +22,9 @@ ordersRouter.get("/", async (req, res, next) => {
   try {
     let filter = {};
     if (req.query.uid) {
-      filter = {uid: req.query.uid};
+      filter = { uid: req.query.uid };
     }
-    const allOrders = await orders.read({filter});
+    const allOrders = await orders.read({ filter });
     if (Array.isArray(allOrders)) {
       return res.status(200).json({ success: true, response: allOrders });
     } else {
@@ -49,7 +49,20 @@ ordersRouter.get("/:oid", async (req, res, next) => {
   }
 });
 
-//ordersRouter.get("/total/:uid", async (req, res, next) => {});
+ordersRouter.get("/:uid", async (req, res, next) => {
+  try {
+    const { uid } = req.params;
+    const filter = { user_id: uid };
+    const allOrders = await orders.read({ filter });
+    if (typeof allOrders === "object") {
+      return res.status(200).json({ success: true, response: allOrders });
+    } else {
+      return res.status(404).json({ success: false, error: allOrders });
+    }
+  } catch (error) {
+    return next(error);
+  }
+});
 
 ordersRouter.put("/:oid", async (req, res, next) => {
   const { oid } = req.params;

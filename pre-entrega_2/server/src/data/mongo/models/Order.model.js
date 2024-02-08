@@ -25,5 +25,10 @@ const schema = new Schema({
   }, { timestamps: true }
 );
 
+// agregar PRE
+schema.pre("find", function () {
+  this.populate("pid", "_id title price").populate("uid", "-photo -__v -createdAt -updatedAt");
+});
+
 const Order = model(collection, schema);
 export default Order;

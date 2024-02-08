@@ -18,18 +18,9 @@ class MongoManager {
     }
   }
 
-  // async report(id) {}
-
-  async read(obj) {
+  async read({ filter, sort }) {
     try {
-      let { filter, sort } = obj;
-      if (!filter) filter = {};
-      if (!sort) sort = { _id: 1 };
-      const all = await this.model
-        .find(filter)
-        .populate("uid")
-        .populate("pid")
-        .sort(sort);
+      const all = await this.model.find(filter).sort(sort);
       if (all.length === 0) {
         const error = new Error("No documents found");
         error.status = 404;
@@ -62,13 +53,28 @@ class MongoManager {
     }
   }
 
-  // async report(uid) {}
+  // async report(uid) {
+  //
+  // }
 
   async destroy(id) {
     try {
       const one = await this.model.findByIdAndDelete(id);
       notFoundOne(one);
       return one;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async stats({ filter }) {
+    try {
+      let stats = await this.model.filter(filter).explain("executionStats");
+      stats = {
+        quantity: stats.executionStats.nReturned,
+        executionTime: stats.executionStats.executionTimeMillis,
+      };
+      return stats;
     } catch (error) {
       throw error;
     }
