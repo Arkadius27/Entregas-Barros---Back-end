@@ -5,6 +5,8 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import cookieParser from "cookie-parser";
 import expressSession from "express-session";
+import sessionFileStore from "session-file-store";
+import MongoStore from "connect-mongo";
 
 import "dotenv/config.js";
 import dbConnection from "./src/utils/dbConnection.js";
@@ -47,20 +49,51 @@ socketServer.on("connection", (socket) => {
 server.engine("hbs", engine({ extname: ".hbs" }));
 server.set("view engine", "hbs");
 server.set("views", "./src/views");
+
+const FileStore = sessionFileStore(expressSession);
+
 // middlewares
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 server.use(express.static(__dirname + "/public"));
 server.use(morgan("dev"));
 server.use(cookieParser());
+// MONOGO STORE
 server.use(
   expressSession({
     secret: process.env.SECRET_KEY,
     resave: true,
     saveUninitialized: true,
-    cookie: { maxAge: 60000 },
+    store: new MongoStore({
+      ttl: 7 * 24 * 60 * 60,
+      mongoUrl: process.env.DB_LINK,
+    }),
   })
 );
+// MEMORY STORE
+// server.use(
+//   expressSession({
+//     store: new FileStore({ path:"./src/sessions", ttl: 10, retries: 3}),
+//     secret: process.env.SECRET_KEY,
+//     resave: true,
+//     saveUninitialized: true,
+//     cookie: { maxAge: 60000 },
+//   })
+// );
+// FILE STORE
+// server.use(
+//   expressSession({
+//     store: new FileStore({
+//       path: "./src/data/fs/files/sessions",
+//       ttl: 10,
+//       retries: 3,
+//     }),
+//     secret: process.env.SECRET_KEY,
+//     resave: true,
+//     saveUninitialized: true,
+//   })
+// );
+
 // routers
 server.use("/", router);
 server.use(errorHandler);

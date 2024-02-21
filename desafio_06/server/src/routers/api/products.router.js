@@ -1,10 +1,11 @@
 import { Router } from "express";
 // import products from "../../data/fs/ProductManager.fs.js";
 import { products } from "../../data/mongo/Manager.mongo.js";
+import isAdmin from "../../middlewares/isAdmin.js";
 
 const productsRouter = Router();
 
-productsRouter.post("/", async (req, res, next) => {
+productsRouter.post("/", isAdmin, async (req, res, next) => {
   try {
     const data = req.body;
     const newProduct = await products.create(data);

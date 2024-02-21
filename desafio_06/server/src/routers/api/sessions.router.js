@@ -1,13 +1,16 @@
 import { Router } from "express";
-import session from "express-session";
+import { users } from "../../data/mongo/Manager.mongo.js";
+import has8char from "../../middlewares/has8char.js";
+import isValidPass from "../../middlewares/isValidPass.js";
 
 const sessionsRouter = Router();
 
-sessionsRouter.post("/login", async (req, res, next) => {
+sessionsRouter.post("/login", isValidPass, async (req, res, next) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, role } = req.body;
     if (email && password === "hola1234") {
       req.session.email = email;
+      req.session.role = role;
       return res
         .status(200)
         .json({ message: `Welcome ${email}!`, session: req.session });
@@ -35,6 +38,16 @@ sessionsRouter.post("/me", async (req, res, next) => {
   }
 });
 
+sessionsRouter.post("/register", has8char, async (req, res, next) => {
+  try {
+    const data = req.body;
+    await users.create(data);
+    return res.status(201).json({ message: "Registered!" });
+  } catch (error) {
+    return next(error);
+  }
+});
+
 sessionsRouter.post("/signout", async (req, res, next) => {
   try {
     if (!req.session.email) {
@@ -43,9 +56,7 @@ sessionsRouter.post("/signout", async (req, res, next) => {
       throw error;
     }
     req.session.destroy();
-    return res
-      .status(200)
-      .json({ message: "Signed out." });
+    return res.status(200).json({ message: "Signed out." });
   } catch (error) {
     return next(error);
   }
