@@ -1,0 +1,32 @@
+[
+  {
+    "id": "c2ca17c3fec532defcec2acd",
+    "name": "Agustin Barros",
+    "photo": "img/agustinphoto.png",
+    "email": "agustin@email.com"
+  },
+  {
+    "id": "5a5b9c4c6a4cca53af521b11",
+    "name": "Javier de Mattos",
+    "photo": "img/javaphoto.png",
+    "email": "java@email.com"
+  },
+  {
+    "id": "37025332e3e713bb22c3d5f9",
+    "name": "Diego Franggi",
+    "photo": "img/diegophoto.png",
+    "email": "diego@email.com"
+  },
+  {
+    "id": "0d8234e568ff17b9aebc8566",
+    "name": "Mateo Zapater",
+    "photo": "img/mateophoto.png",
+    "email": "mateo@email.com"
+  },
+  {
+    "id": "2e84b03cdb25f1302e78cae6",
+    "name": "Felipe Ciganda",
+    "photo": "img/felipephoto.png",
+    "email": "felipe@email.com"
+  }
+]
