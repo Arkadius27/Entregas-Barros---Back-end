@@ -1,0 +1,16 @@
+[
+  {
+    "id": "0ee540e92407dd7e428948bf",
+    "title": "PS5",
+    "photo": "img/ps5photo.png",
+    "price": 750,
+    "stock": 10
+  },
+  {
+    "id": "ae2b0c3dc370d7a7ab01fb09",
+    "title": "PS5",
+    "photo": "img/ps5photo.png",
+    "price": 750,
+    "stock": 10
+  }
+]
