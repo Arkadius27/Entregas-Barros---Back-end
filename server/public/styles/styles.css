@@ -1,12 +1,22 @@
-body h1 {
+body h3 {
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
+  text-align: center;
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin: 1rem;
 }
-body p {
-  margin: 1rem;
+.logo-container img {
+  height: 150px;
 }
 
 .navbar-brand img {
-  height: 75px;
+  height: 55px;
 }
 
 .card-container {

@@ -6,19 +6,32 @@ import passport from "../../middlewares/passport.js";
 
 const sessionsRouter = Router();
 
-sessionsRouter.post("/login", isValidPass, async (req, res, next) => {
-  try {
-    const { email, password, role } = req.body;
-    if (email && password) {
-      req.session.email = email;
-      req.session.role = role;
+sessionsRouter.post(
+  "/login",
+  passport.authenticate("login", {
+    session: false,
+    failureRedirect: "/api/sessions/badauth",
+  }),
+  async (req, res, next) => {
+    try {
       return res
         .status(200)
-        .json({ message: `Welcome ${email}!`, session: req.session });
+        .json({ message: "Logged in!", session: req.session });
+    } catch (error) {
+      return next(error);
     }
-    const error = new Error("Invalid credentials");
-    error.statusCode = 401;
-    throw error;
+  }
+);
+
+sessionsRouter.post("/signout", async (req, res, next) => {
+  try {
+    if (!req.session.email) {
+      const error = new Error("No active session");
+      error.statusCode = 400;
+      throw error;
+    }
+    req.session.destroy();
+    return res.status(200).json({ message: "Signed out." });
   } catch (error) {
     return next(error);
   }
@@ -44,7 +57,7 @@ sessionsRouter.post(
   has8char,
   passport.authenticate("register", {
     session: false,
-    failureRedirect: "api/sessions/badauth"
+    failureRedirect: "/api/sessions/badauth",
   }),
   async (req, res, next) => {
     try {
@@ -54,20 +67,6 @@ sessionsRouter.post(
     }
   }
 );
-
-sessionsRouter.post("/signout", async (req, res, next) => {
-  try {
-    if (!req.session.email) {
-      const error = new Error("No active session");
-      error.statusCode = 400;
-      throw error;
-    }
-    req.session.destroy();
-    return res.status(200).json({ message: "Signed out." });
-  } catch (error) {
-    return next(error);
-  }
-});
 
 sessionsRouter.get("/badauth", (req, res, next) => {
   try {
