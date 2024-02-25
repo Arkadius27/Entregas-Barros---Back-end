@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { users } from "../../data/mongo/Manager.mongo.js";
 import has8char from "../../middlewares/has8char.js";
-import isValidPass from "../../middlewares/isValidPass.js";
+// import isValidPass from "../../middlewares/isValidPass.js";
 import passport from "../../middlewares/passport.js";
 
 const sessionsRouter = Router();
@@ -17,6 +17,24 @@ sessionsRouter.post(
       return res
         .status(200)
         .json({ message: "Logged in!", session: req.session });
+    } catch (error) {
+      return next(error);
+    }
+  }
+);
+
+sessionsRouter.post(
+  "/register",
+  has8char,
+  passport.authenticate("register", {
+    session: false,
+    failureRedirect: "/api/sessions/badauth",
+  }),
+  async (req, res, next) => {
+    try {
+      return res
+      .status(201)
+      .json({ message: "Registered!" });
     } catch (error) {
       return next(error);
     }
@@ -51,22 +69,6 @@ sessionsRouter.post("/me", async (req, res, next) => {
     return next(error);
   }
 });
-
-sessionsRouter.post(
-  "/register",
-  has8char,
-  passport.authenticate("register", {
-    session: false,
-    failureRedirect: "/api/sessions/badauth",
-  }),
-  async (req, res, next) => {
-    try {
-      return res.status(201).json({ message: "Registered!" });
-    } catch (error) {
-      return next(error);
-    }
-  }
-);
 
 sessionsRouter.get("/badauth", (req, res, next) => {
   try {

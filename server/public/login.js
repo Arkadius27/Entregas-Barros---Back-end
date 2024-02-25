@@ -1,18 +1,20 @@
-const selector = document.querySelector("#login");
-
-selector.addEventListener("click", async () => {
+document.querySelector("#login").addEventListener("click", async () => {
   try {
+    const data = {
+      email: document.querySelector("#email").value,
+      password: document.querySelector("#password").value,
+    };
+    //console.log(data);
     const options = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        body: JSON.stringify(data),
       },
-      body: JSON.stringify({
-        email: document.querySelector("#email").value,
-        password: document.querySelector("#password").value,
-      }),
-    }
-    await fetch("/api/sessions/login", options);
+    };
+    let response = await fetch("/api/sessions/login", options);
+    response = await response.json();
+    alert(response.message);
   } catch (error) {
     alert(error.message);
   }
