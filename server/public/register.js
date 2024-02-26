@@ -1,9 +1,11 @@
-document.querySelector("#login").addEventListener("click", async (e) => {
+document.querySelector("#register").addEventListener("click", async (e) => {
   e.preventDefault();
   try {
     const data = {
+      name: document.querySelector("#name").value,
       email: document.querySelector("#email").value,
       password: document.querySelector("#password").value,
+      photo: document.querySelector("#profilePic").value,
     };
     const options = {
       method: "POST",
@@ -12,10 +14,13 @@ document.querySelector("#login").addEventListener("click", async (e) => {
       },
       body: JSON.stringify(data),
     };
-    let response = await fetch("/api/sessions/login", options);
+    let response = await fetch("/api/sessions/register", options);
     response = await response.json();
     alert(response.message);
-    response.session && location.replace("/");
+    console.log(response.message);
+    if (response.message === "Registered!") {
+      window.location.replace("/users/auth/login");
+    }
   } catch (error) {
     alert(error.message);
   }
