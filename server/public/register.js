@@ -25,3 +25,21 @@ document.querySelector("#register").addEventListener("click", async (e) => {
     alert(error.message);
   }
 });
+
+function handleCredentialResponse(response) {
+  console.log("ID: " + response.credential);
+  fetch('/api/auth/google', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ token: response.credential })
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+}

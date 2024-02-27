@@ -24,6 +24,28 @@ sessionsRouter.post(
 );
 
 sessionsRouter.post(
+  "/google",
+  passport.authenticate("google", { scope: ["email", "profile"] })
+);
+
+sessionsRouter.get(
+  "/google/callback",
+  passport.authenticate("google", {
+    session: false,
+    failureRedirect: "/api/sessions/badauth",
+  }),
+  async (req, res, next) => {
+    try {
+      return res
+        .status(200)
+        .json({ message: "Logged in with Google!", session: req.session });
+    } catch (error) {
+      return next(error);
+    }
+  }
+);
+
+sessionsRouter.post(
   "/register",
   has8char,
   passport.authenticate("register", {
@@ -32,9 +54,7 @@ sessionsRouter.post(
   }),
   async (req, res, next) => {
     try {
-      return res
-      .status(201)
-      .json({ message: "Registered!" });
+      return res.status(201).json({ message: "Registered!" });
     } catch (error) {
       return next(error);
     }
