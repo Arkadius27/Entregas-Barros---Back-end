@@ -3,6 +3,7 @@ import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as GoogleStrategy } from "passport-google-oauth2";
 import { createHash, verifyHash } from "../utils/hash.js";
 import { users } from "../data/mongo/Manager.mongo.js";
+import { createToken } from "../utils/token.js";
 const { GOOGLE_ID, GOOGLE_CLIENT } = process.env;
 
 passport.use(
@@ -37,8 +38,10 @@ passport.use(
         if (user) {
           const verify = verifyHash(password, user.password);
           if (verify) {
-            req.session.email = email;
-            req.session.role = user.role;
+            // req.session.email = email;
+            // req.session.role = user.role;
+            const token = createToken({ email: user.email, role: user.role });
+            req.token = token;
             return done(null, user);
           } else {
             return done(null, false);

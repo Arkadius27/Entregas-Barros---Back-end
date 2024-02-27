@@ -16,7 +16,7 @@ sessionsRouter.post(
     try {
       return res
         .status(200)
-        .json({ message: "Logged in!", session: req.session });
+        .json({ message: "Logged in!", token: req.token });
     } catch (error) {
       return next(error);
     }
