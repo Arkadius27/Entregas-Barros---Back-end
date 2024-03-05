@@ -16,6 +16,10 @@ sessionsRouter.post(
     try {
       return res
         .status(200)
+        .cookie("token", req.token, {
+          maxAge: 7 * 24 * 60 * 60,
+          httpOnly: true,
+        })
         .json({ message: "Logged in!", token: req.token });
     } catch (error) {
       return next(error);

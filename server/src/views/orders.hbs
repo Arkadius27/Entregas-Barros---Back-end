@@ -1,0 +1,13 @@
+<h4>Your Orders</h4>
+  <div class="card-container d-flex flex-wrap justify-content-center my-5">
+    {{#each orders}}
+      <div class="card" style="width: 18rem;">
+        <img src="{{this.photo}}" class="card-img-top" alt="{{this.title}}" />
+        <div class="card-body">
+          <h5 class="card-text">{{this.uid}}</h5>
+          <p class="card-title fw-bolder">${{this.pid}}</p>
+          <p class="card-text fw-light">{{this.quantity}} units in stock</p>
+        </div>
+      </div>
+    {{/each}}
+  </div>

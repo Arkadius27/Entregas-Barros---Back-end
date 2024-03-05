@@ -1,10 +1,11 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as GoogleStrategy } from "passport-google-oauth2";
+import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 import { createHash, verifyHash } from "../utils/hash.js";
 import { users } from "../data/mongo/Manager.mongo.js";
 import { createToken } from "../utils/token.js";
-const { GOOGLE_ID, GOOGLE_CLIENT } = process.env;
+const { GOOGLE_ID, GOOGLE_CLIENT, JWT_SECRET } = process.env;
 
 passport.use(
   "register",
@@ -85,6 +86,29 @@ passport.use(
           req.session.role = user.role;
           return done(null, user);
         }
+      } catch (error) {
+        return done(error);
+      }
+    }
+  )
+);
+
+passport.use(
+  "jwt",
+  new JwtStrategy(
+    {
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        (req) => req?.cookies["token"],
+      ]),
+      secretOrKey: JWT_SECRET,
+    },
+    async (jwt_payload, done) => {
+      try {
+        let user = await users.readByEmail(jwt_payload.email);
+        if (user) {
+          user.password = null;
+          return done(null, user);
+        } else return done(null, false);
       } catch (error) {
         return done(error);
       }
