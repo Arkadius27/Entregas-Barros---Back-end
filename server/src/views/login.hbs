@@ -1,0 +1,23 @@
+<form class="w-50 m-auto my-5">
+  <div class="mb-3">
+    <label for="inputEmail" class="form-label">Email address</label>
+    <input type="email" class="form-control" id="email" aria-describedby="emailHelp">
+  </div>
+  <div class="mb-3">
+    <label for="inputPassword" class="form-label">Password</label>
+    <input type="password" class="form-control" id="password">
+  </div>
+  <button type="submit" class="btn btn-primary" id="login">Login</button>
+</div>
+</form>
+
+<div class="google-button-container">
+  <div id="g_id_onload"
+      data-client_id="467455940348-120oa99itk3b4js0v5batfl46vc10m71.apps.googleusercontent.com"
+      data-callback="handleCredentialResponse">
+    <div class="g_id_signin" data-type="standard"></div>
+  </div>
+</div>
+
+<script src="/login.js"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
