@@ -1,0 +1,35 @@
+<main class="my-3">
+  <div class="logo-container">
+    <img src="/images/logo.PNG" alt="TCG Master" />
+  </div>
+  <h4>Uncover the perfect haven for all your Yu-Gi-Oh! TCG card needs!</h4>
+  <input type="text" id="searchBar">
+  <button id="searchButton">SEARCH</button>
+  <div class="card-container d-flex flex-wrap justify-content-center my-5">
+    {{#each products}}
+      <div class="card" style="width: 18rem;">
+        <img src="{{this.photo}}" class="card-img-top" alt="{{this.title}}" />
+        <div class="card-body">
+          <h5 class="card-text">{{this.title}}</h5>
+          <p class="card-title fw-bolder">${{this.price}}</p>
+          <p class="card-text fw-light">{{this.stock}} units in stock</p>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+
+  <div class="d-grid gap-2 d-md-flex justify-content-center">
+    <span>
+      {{#if prev}}
+      <a href="/?title={{filter}}&page={{prev}}&limit={{limit}}">PREV</a>
+      {{/if}}
+      {{#if next}}
+      <a href="/?title={{filter}}&page={{next}}&limit={{limit}}">NEXT</a>
+      {{/if}}
+    </span>
+  </div>
+
+  <div class="page-buttons"></div>
+</main>
+
+<script src="./index.js"></script>

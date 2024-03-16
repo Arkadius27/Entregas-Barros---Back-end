@@ -1,0 +1,48 @@
+body h4 {
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
+  text-align: center;
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem;
+}
+.logo-container img {
+  height: 150px;
+}
+
+.navbar {
+  position: relative;
+}
+.navbar-brand img {
+  height: 55px;
+}
+
+.card-container {
+  gap: 1rem;
+}
+
+.registration-container {
+  display: flex;
+  position: absolute;
+  right: 0;
+}
+
+#g_id_onload {
+  display: flex;
+  width: 200px;
+}
+.google-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pages-button a {
+  text-decoration: none;
+  color: white;
+}
