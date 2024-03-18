@@ -16,11 +16,9 @@ document.querySelector("#register").addEventListener("click", async (e) => {
     };
     let response = await fetch("/api/sessions/register", options);
     response = await response.json();
-    alert(response.message);
-    console.log(response.message);
-    if (response.message === "Registered!") {
-      window.location.replace("/users/auth/login");
-    }
+    response.statusCode === 201
+      ? location.replace("/users/auth/login")
+      : alert("ERROR: " + response.message);
   } catch (error) {
     alert(error.message);
   }
@@ -35,11 +33,11 @@ function handleCredentialResponse(response) {
     },
     body: JSON.stringify({ token: response.credential })
   })
-  .then(response => response.json())
-  .then(data => {
-    console.log(data);
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
 }

@@ -14,8 +14,9 @@ document.querySelector("#login").addEventListener("click", async (e) => {
     };
     let response = await fetch("/api/sessions/login", options);
     response = await response.json();
-    alert(response.message);
-    response.session && location.replace("/");
+    response.statusCode === 200
+      ? location.replace("/")
+      : alert("ERROR: " + response.message);
   } catch (error) {
     alert(error.message);
   }
@@ -30,11 +31,11 @@ function handleCredentialResponse(response) {
     },
     body: JSON.stringify({ token: response.credential })
   })
-  .then(response => response.json())
-  .then(data => {
-    console.log(data);
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
 }

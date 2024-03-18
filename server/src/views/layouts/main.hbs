@@ -35,11 +35,12 @@
           <div class="navbar-nav">
             <a class="nav-link active" aria-current="page" href="/">Home</a>
             <a class="nav-link" href="/products">Catalog</a>
-            <a class="nav-link" href="/products/form">Create</a>
-            <a class="nav-link" href="/orders">Your Orders</a>
+            <a id="formButton" class="nav-link" href="/products/form">Create</a>
+            <a id="ordersButton" class="nav-link" href="/orders">Your Orders</a>
             <div class="nav link registration-container">
-              <a class="nav-link" href="/users/auth/login">Login</a>
-              <a class="nav-link" href="/users/auth/register">Register</a>
+              <a id="loginButton" class="nav-link" href="/users/auth/login">Login</a>
+              <a id="registerButton" class="nav-link" href="/users/auth/register">Register</a>
+              <a id="signout" class="nav-link" href="/">Sign Out</a>
             </div>
           </div>
         </div>
@@ -107,6 +108,7 @@
       integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
       crossorigin="anonymous"
     ></script>
+    <script src="/signout.js"></script>
   </body>
 
 </html>

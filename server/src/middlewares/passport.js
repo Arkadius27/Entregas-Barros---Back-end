@@ -14,16 +14,19 @@ passport.use(
     async (req, email, password, done) => {
       try {
         let one = await users.readByEmail(email);
-        if (one) {
-          return done(null, false);
-        } else {
+        if (!one) {
           let data = req.body;
           data.password = createHash(password);
           let user = await users.create(data);
           return done(null, user);
+        } else {
+          return done(null, false, {
+            message: "User already exists",
+            statusCode: 400,
+          });
         }
       } catch (error) {
-        done(error);
+        return done(error);
       }
     }
   )
@@ -36,22 +39,15 @@ passport.use(
     async (req, email, password, done) => {
       try {
         const user = await users.readByEmail(email);
-        if (user) {
-          const verify = verifyHash(password, user.password);
-          if (verify) {
-            // req.session.email = email;
-            // req.session.role = user.role;
-            const token = createToken({ email: user.email, role: user.role });
-            req.token = token;
-            return done(null, user);
-          } else {
-            return done(null, false);
-          }
+        if (user && verifyHash(password, user.password)) {
+          const token = createToken({ email, role: user.role });
+          req.token = token;
+          return done(null, user);
         } else {
-          return done(null, false);
+          return done(null, false, { message: "Bad auth!!!" });
         }
       } catch (error) {
-        done(error);
+        return done(error);
       }
     }
   )
@@ -102,13 +98,15 @@ passport.use(
       ]),
       secretOrKey: JWT_SECRET,
     },
-    async (jwt_payload, done) => {
+    async (payload, done) => {
       try {
-        let user = await users.readByEmail(jwt_payload.email);
+        const user = await users.readByEmail(payload.email);
         if (user) {
           user.password = null;
           return done(null, user);
-        } else return done(null, false);
+        } else {
+          return done(null, false);
+        }
       } catch (error) {
         return done(error);
       }

@@ -2,17 +2,18 @@ import { Router } from "express";
 // import products from "../../data/fs/ProductManager.fs.js";
 import { products } from "../../data/mongo/Manager.mongo.js";
 import isAdmin from "../../middlewares/isAdmin.js";
+import passCallBack from "../../middlewares/passCallBack.mid.js";
 
 const productsRouter = Router();
 
-productsRouter.post("/", isAdmin, async (req, res, next) => {
+productsRouter.post("/", passCallBack("jwt"), isAdmin, async (req, res, next) => {
   try {
     const data = req.body;
     const newProduct = await products.create(data);
     if (newProduct === "Missing data for product creation") {
       return res.status(400).json({ success: false, error: newProduct });
     } else {
-      return res.status(201).json({ success: true, response: newProduct });
+      return res.status(201).json({ success: true, statusCode: 201, response: newProduct });
     }
   } catch (error) {
     return next(error);
@@ -34,7 +35,7 @@ productsRouter.get("/", async (req, res, next) => {
     } else {
       sortAndPaginate.sort = { price: 1 };
     }
-    const allProducts = await products.read({filter, sortAndPaginate});
+    const allProducts = await products.read({ filter, sortAndPaginate });
     if (Array.isArray(allProducts)) {
       return res.status(200).json({ success: true, response: allProducts });
     } else {

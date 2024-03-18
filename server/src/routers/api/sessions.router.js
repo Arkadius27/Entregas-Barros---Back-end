@@ -2,25 +2,22 @@ import { Router } from "express";
 import { users } from "../../data/mongo/Manager.mongo.js";
 import has8char from "../../middlewares/has8char.js";
 // import isValidPass from "../../middlewares/isValidPass.js";
-import passport from "../../middlewares/passport.js";
+import passCallBack from "../../middlewares/passCallBack.mid.js";
+import passport from "passport";
 
 const sessionsRouter = Router();
 
 sessionsRouter.post(
   "/login",
-  passport.authenticate("login", {
-    session: false,
-    failureRedirect: "/api/sessions/badauth",
-  }),
+  passCallBack("login"),
   async (req, res, next) => {
     try {
       return res
-        .status(200)
         .cookie("token", req.token, {
           maxAge: 7 * 24 * 60 * 60,
           httpOnly: true,
         })
-        .json({ message: "Logged in!", token: req.token });
+        .json({ statusCode: 200, message: "Logged in!", });
     } catch (error) {
       return next(error);
     }
@@ -41,7 +38,6 @@ sessionsRouter.get(
   async (req, res, next) => {
     try {
       return res
-        .status(200)
         .json({ message: "Logged in with Google!", session: req.session });
     } catch (error) {
       return next(error);
@@ -52,43 +48,39 @@ sessionsRouter.get(
 sessionsRouter.post(
   "/register",
   has8char,
-  passport.authenticate("register", {
-    session: false,
-    failureRedirect: "/api/sessions/badauth",
-  }),
+  passCallBack("register"),
   async (req, res, next) => {
     try {
-      return res.status(201).json({ message: "Registered!" });
+      return res.json({ statusCode: 201, message: "Registered!" });
     } catch (error) {
       return next(error);
     }
   }
 );
 
-sessionsRouter.post("/signout", async (req, res, next) => {
-  try {
-    if (!req.session.email) {
-      const error = new Error("No active session");
-      error.statusCode = 400;
-      throw error;
+sessionsRouter.post("/signout", passCallBack("jwt"),
+  async (req, res, next) => {
+    try {
+      return res.clearCookie("token").json({
+        statusCode: 200,
+        message: "Signed out!",
+      });
+    } catch (error) {
+      return next(error);
     }
-    req.session.destroy();
-    return res.status(200).json({ message: "Signed out." });
-  } catch (error) {
-    return next(error);
-  }
-});
+  });
 
-sessionsRouter.post("/me", async (req, res, next) => {
+sessionsRouter.post("/me", passCallBack("jwt"), async (req, res, next) => {
   try {
-    if (req.session.email) {
-      return res
-        .status(200)
-        .json({ message: `Signed in as: ${req.session.email}!` });
+    const user = {
+      email: req.user.email,
+      role: req.user.role,
+      photo: req.user.photo,
     }
-    const error = new Error("No authenticated user found.");
-    error.statusCode = 400;
-    throw error;
+    return res.json({
+      statusCode: 200,
+      response: user
+    })
   } catch (error) {
     return next(error);
   }
@@ -96,7 +88,7 @@ sessionsRouter.post("/me", async (req, res, next) => {
 
 sessionsRouter.get("/badauth", (req, res, next) => {
   try {
-    return res.status(401).json({ message: "Bad authentication" });
+    return res.json({ message: "Bad authentication" });
   } catch (error) {
     return next(error);
   }
