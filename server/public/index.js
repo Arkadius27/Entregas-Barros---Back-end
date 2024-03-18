@@ -9,4 +9,3 @@ document.querySelector("#searchButton").addEventListener("click", async (event) 
     alert(error.message);
   }
 });
-
