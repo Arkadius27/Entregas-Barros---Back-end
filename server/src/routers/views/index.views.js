@@ -1,9 +1,13 @@
 import CustomRouter from "../CustomRouter.js";
-import productsRouter from "./products.views.js";
-import usersRouter from "./users.views.js";
-import ordersRouter from "./orders.views.js";
+import ProductsRouter from "./products.views.js";
+import UsersRouter from "./users.views.js";
+import OrdersRouter from "./orders.views.js";
 // import products from "../../data/fs/ProductManager.fs.js";
 import { products } from "../../data/mongo/Manager.mongo.js";
+
+const product = new ProductsRouter();
+const user = new UsersRouter();
+const orders = new OrdersRouter();
 
 export default class ViewsRouter extends CustomRouter {
   init() {
@@ -31,9 +35,9 @@ export default class ViewsRouter extends CustomRouter {
         return next(error);
       }
     });
-    this.router.use("/products", productsRouter);
-    this.router.use("/users", usersRouter);
-    this.router.use("/orders", ordersRouter);
+    this.router.use("/products", product.getRouter());
+    this.router.use("/users", user.getRouter());
+    this.router.use("/orders", orders.getRouter());
   }
 }
 

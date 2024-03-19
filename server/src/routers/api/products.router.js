@@ -13,7 +13,7 @@ export default class ProductsRouter extends CustomRouter {
         if (newProduct === "Missing data for product creation") {
           return res.status(400).json({ success: false, error: newProduct });
         } else {
-          return res.status(201).json({ success: true, statusCode: 201, response: newProduct });
+          return res.success201(newProduct);
         }
       } catch (error) {
         return next(error);
@@ -90,5 +90,3 @@ export default class ProductsRouter extends CustomRouter {
     });
   }
 }
-
-
