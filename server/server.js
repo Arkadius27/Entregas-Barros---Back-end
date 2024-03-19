@@ -11,7 +11,7 @@ import MongoStore from "connect-mongo";
 import "dotenv/config.js";
 import dbConnection from "./src/utils/dbConnection.js";
 
-import router from "./src/routers/index.router.js";
+import IndexRouter from "./src/routers/index.router.js";
 import errorHandler from "./src/middlewares/errorHandler.js";
 import pathHandler from "./src/middlewares/pathHandler.js";
 import __dirname from "./utils.js";
@@ -95,6 +95,7 @@ server.use(
 // );
 
 // routers
-server.use("/", router);
+const router = new IndexRouter();
+server.use("/", router.getRouter());
 server.use(errorHandler);
 server.use(pathHandler);
