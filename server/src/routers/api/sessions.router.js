@@ -10,6 +10,7 @@ export default class SessionsRouter extends CustomRouter {
     this.create(
       "/login",
       passCallBack("login"),
+      ["ADMIN"],
       async (req, res, next) => {
         try {
           return res
@@ -17,38 +18,43 @@ export default class SessionsRouter extends CustomRouter {
               maxAge: 7 * 24 * 60 * 60,
               httpOnly: true,
             })
-            .json({ statusCode: 200, message: "Logged in!", });
+            .json({ statusCode: 200, message: "Logged in!" });
         } catch (error) {
           return next(error);
         }
       }
     );
-    
+
     this.create(
       "/google",
+      ["ADMIN"],
       passport.authenticate("google", { scope: ["email", "profile"] })
     );
-    
+
     this.read(
       "/google/callback",
       passport.authenticate("google", {
         session: false,
         failureRedirect: "/api/sessions/badauth",
       }),
+      ["PUBLIC"],
       async (req, res, next) => {
         try {
-          return res
-            .json({ message: "Logged in with Google!", session: req.session });
+          return res.json({
+            message: "Logged in with Google!",
+            session: req.session,
+          });
         } catch (error) {
           return next(error);
         }
       }
     );
-    
+
     this.create(
       "/register",
       has8char,
       passCallBack("register"),
+      ["PUBLIC"],
       async (req, res, next) => {
         try {
           return res.json({ statusCode: 201, message: "Registered!" });
@@ -57,8 +63,11 @@ export default class SessionsRouter extends CustomRouter {
         }
       }
     );
-    
-    this.create("/signout", passCallBack("jwt"),
+
+    this.create(
+      "/signout",
+      passCallBack("jwt"),
+      ["PUBLIC"],
       async (req, res, next) => {
         try {
           return res.clearCookie("token").json({
@@ -68,25 +77,31 @@ export default class SessionsRouter extends CustomRouter {
         } catch (error) {
           return next(error);
         }
-      });
-    
-    this.create("/me", passCallBack("jwt"), async (req, res, next) => {
-      try {
-        const user = {
-          email: req.user.email,
-          role: req.user.role,
-          photo: req.user.photo,
-        }
-        return res.json({
-          statusCode: 200,
-          response: user
-        })
-      } catch (error) {
-        return next(error);
       }
-    });
-    
-    this.read("/badauth", (req, res, next) => {
+    );
+
+    this.create(
+      "/me",
+      passCallBack("jwt"),
+      ["PUBLIC"],
+      async (req, res, next) => {
+        try {
+          const user = {
+            email: req.user.email,
+            role: req.user.role,
+            photo: req.user.photo,
+          };
+          return res.json({
+            statusCode: 200,
+            response: user,
+          });
+        } catch (error) {
+          return next(error);
+        }
+      }
+    );
+
+    this.read("/badauth", ["PUBLIC"], (req, res, next) => {
       try {
         return res.json({ message: "Bad authentication" });
       } catch (error) {
@@ -95,4 +110,3 @@ export default class SessionsRouter extends CustomRouter {
     });
   }
 }
-

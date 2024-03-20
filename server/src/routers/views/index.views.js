@@ -11,7 +11,7 @@ const orders = new OrdersRouter();
 
 export default class ViewsRouter extends CustomRouter {
   init() {
-    this.read("/", async (req, res, next) => {
+    this.read("/", ["PUBLIC"], async (req, res, next) => {
       try {
         const sortAndPaginate = {
           limit: req.query.limit || 8,
@@ -25,7 +25,7 @@ export default class ViewsRouter extends CustomRouter {
         const all = await products.read({ filter, sortAndPaginate });
         console.log(all);
         return res.render("index", {
-          products: all.docs, // lean evita esto: all.docs.map((product) => product.toJSON())
+          products: all.docs,
           next: all.nextPage,
           prev: all.prevPage,
           filter: req.query.title,

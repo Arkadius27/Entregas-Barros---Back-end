@@ -5,7 +5,7 @@ import passport from "../../middlewares/passport.js";
 
 export default class OrdersRouter extends CustomRouter {
   init() {
-    this.read("/", passport.authenticate("jwt", { session: false }), async (req, res, next) => {
+    this.read("/", passport.authenticate("jwt", { session: false }), ["USER"], async (req, res, next) => {
       try {
         const sortAndPaginate = {
           lean: true,

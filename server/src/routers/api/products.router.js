@@ -6,7 +6,7 @@ import passCallBack from "../../middlewares/passCallBack.mid.js";
 
 export default class ProductsRouter extends CustomRouter {
   init() {
-    this.create("/", passCallBack("jwt"), isAdmin, async (req, res, next) => {
+    this.create("/", passCallBack("jwt"), ["ADMIN"], async (req, res, next) => {
       try {
         const data = req.body;
         const newProduct = await products.create(data);
@@ -20,7 +20,7 @@ export default class ProductsRouter extends CustomRouter {
       }
     });
     
-    this.read("/", async (req, res, next) => {
+    this.read("/", ["PUBLIC"], async (req, res, next) => {
       try {
         const sortAndPaginate = {
           limit: req.query.limit || 20,
@@ -37,7 +37,7 @@ export default class ProductsRouter extends CustomRouter {
         }
         const allProducts = await products.read({ filter, sortAndPaginate });
         if (Array.isArray(allProducts)) {
-          return res.status(200).json({ success: true, response: allProducts });
+          return res.success200(allProducts);
         } else {
           return res.status(404).json({ success: false, error: allProducts });
         }
@@ -46,12 +46,12 @@ export default class ProductsRouter extends CustomRouter {
       }
     });
     
-    this.read("/:pid", async (req, res, next) => {
+    this.read("/:pid", ["PUBLIC"], async (req, res, next) => {
       try {
         const { pid } = req.params;
         const oneProduct = await products.readOne(pid);
         if (typeof oneProduct === "object") {
-          return res.status(200).json({ success: true, response: oneProduct });
+          return res.success200(oneProduct);
         } else {
           return res.status(404).json({ success: false, error: oneProduct });
         }
@@ -60,13 +60,13 @@ export default class ProductsRouter extends CustomRouter {
       }
     });
     
-    this.update("/:pid", async (req, res, next) => {
+    this.update("/:pid", ["ADMIN"], async (req, res, next) => {
       const { pid } = req.params;
       const data = req.body;
       const updatedProduct = await products.update(pid, data);
       try {
         if (typeof updatedProduct === "object") {
-          return res.status(200).json({ success: true, response: updatedProduct });
+          return res.success200(updatedProduct);
         } else {
           return res.status(400).json({ success: false, error: updatedProduct });
         }
@@ -75,12 +75,12 @@ export default class ProductsRouter extends CustomRouter {
       }
     });
     
-    this.destroy("/:pid", async (req, res, next) => {
+    this.destroy("/:pid", ["ADMIN"], async (req, res, next) => {
       const { pid } = req.params;
       const deletedProduct = await products.destroy(pid);
       try {
         if (typeof deletedProduct === "object") {
-          return res.status(200).json({ success: true, response: deletedProduct });
+          return res.success200(deletedProduct);
         } else {
           return res.status(400).json({ success: false, error: deletedProduct });
         }

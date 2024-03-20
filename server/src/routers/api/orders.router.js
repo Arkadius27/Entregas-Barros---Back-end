@@ -4,7 +4,7 @@ import { orders } from "../../data/mongo/Manager.mongo.js";
 
 export default class OrdersRouter extends CustomRouter {
   init() {
-    this.create("/", async (req, res, next) => {
+    this.create("/", ["ADMIN"], async (req, res, next) => {
       try {
         const data = req.body;
         const newOrder = await orders.create(data);
@@ -18,7 +18,7 @@ export default class OrdersRouter extends CustomRouter {
       }
     });
     
-    this.read("/", async (req, res, next) => {
+    this.read("/", ["PUBLIC"], async (req, res, next) => {
       try {
         const sortAndPaginate = {
           limit: req.query.limit || 20,
@@ -47,7 +47,7 @@ export default class OrdersRouter extends CustomRouter {
       }
     });
     
-    this.read("/:oid", async (req, res, next) => {
+    this.read("/:oid", ["PUBLIC"], async (req, res, next) => {
       try {
         const { oid } = req.params;
         const oneOrder = await orders.readOne(oid);
@@ -61,7 +61,7 @@ export default class OrdersRouter extends CustomRouter {
       }
     });
     
-    this.read("/user/:uid", async (req, res, next) => {
+    this.read("/user/:uid", ["PUBLIC"], async (req, res, next) => {
       try {
         const { uid } = req.params;
         const filter = { user_id: uid };
@@ -76,7 +76,7 @@ export default class OrdersRouter extends CustomRouter {
       }
     });
     
-    this.update("/:oid", async (req, res, next) => {
+    this.update("/:oid", ["ADMIN"], async (req, res, next) => {
       const { oid } = req.params;
       const data = req.body;
       const updatedOrder = await orders.update(oid, data);
@@ -91,7 +91,7 @@ export default class OrdersRouter extends CustomRouter {
       }
     });
     
-    this.read("/total/:uid", async (req, res, next) => {
+    this.read("/total/:uid", ["PUBLIC"], async (req, res, next) => {
       try {
         const { uid } = req.params;
         const report = await orders.report(uid);
@@ -105,7 +105,7 @@ export default class OrdersRouter extends CustomRouter {
       }
     });
     
-    this.destroy("/:oid", async (req, res, next) => {
+    this.destroy("/:oid", ["ADMIN"], async (req, res, next) => {
       try {
         const { oid } = req.params;
         const deletedOrder = await orders.destroy(oid);

@@ -4,7 +4,7 @@ import { products } from "../../data/mongo/Manager.mongo.js";
 
 export default class ProductsRouter extends CustomRouter {
   init() {
-    this.read("/", async (req, res, next) => {
+    this.read("/", ["PUBLIC"], async (req, res, next) => {
       try {
         const all = await products.read({});
         return res.render("real", { products: all.docs.map((product) => product.toJSON())});
@@ -13,7 +13,7 @@ export default class ProductsRouter extends CustomRouter {
       }
     });
     
-    this.read("/form", (req, res, next) => {
+    this.read("/form", ["ADMIN"], (req, res, next) => {
       try {
         return res.render("form");
       } catch (error) {

@@ -4,7 +4,7 @@ import { users } from "../../data/mongo/Manager.mongo.js";
 
 export default class UsersRouter extends CustomRouter {
   init() {
-    this.create("/", async (req, res, next) => {
+    this.create("/", ["ADMIN"], async (req, res, next) => {
       try {
         const data = req.body;
         const newUser = await users.create(data);
@@ -18,7 +18,7 @@ export default class UsersRouter extends CustomRouter {
       }
     });
     
-    this.read("/", async (req, res, next) => {
+    this.read("/", ["PUBLIC"], async (req, res, next) => {
       try {
         const sortAndPaginate = {
           limit: req.query.limit || 10,
@@ -44,7 +44,7 @@ export default class UsersRouter extends CustomRouter {
       }
     });
     
-    this.read("/:uid", async (req, res, next) => {
+    this.read("/:uid", ["USER"], async (req, res, next) => {
       try {
         const { uid } = req.params;
         const oneUser = await users.readOne(uid);
@@ -58,7 +58,7 @@ export default class UsersRouter extends CustomRouter {
       }
     });
     
-    this.update("/:uid", async (req, res, next) => {
+    this.update("/:uid", ["ADMIN"], async (req, res, next) => {
       try {
         const { uid } = req.params;
         const data = req.body;
@@ -73,7 +73,7 @@ export default class UsersRouter extends CustomRouter {
       }
     });
     
-    this.destroy("/:uid", async (req, res, next) => {
+    this.destroy("/:uid", ["ADMIN"], async (req, res, next) => {
       try {
         const { uid } = req.params;
         const deletedUser = await users.destroy(uid);
