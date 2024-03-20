@@ -3,7 +3,7 @@ import users from "../../data/fs/UserManager.fs.js";
 
 export default class UsersRouter extends CustomRouter {
   init() {
-    this.use("/auth/register", ["PUBLIC"], (req, res, next) => {
+    this.use("/auth/register", (req, res, next) => {
       try {
         return res.render("register");
       } catch (error) {
@@ -11,7 +11,7 @@ export default class UsersRouter extends CustomRouter {
       }
     });
     
-    this.use("/auth/login", ["PUBLIC"], (req, res, next) => {
+    this.use("/auth/login", (req, res, next) => {
       try {
         return res.render("login");
       } catch (error) {

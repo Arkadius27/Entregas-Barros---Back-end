@@ -9,8 +9,8 @@ export default class SessionsRouter extends CustomRouter {
   init() {
     this.create(
       "/login",
+      ["PUBLIC"],
       passCallBack("login"),
-      ["ADMIN"],
       async (req, res, next) => {
         try {
           return res
@@ -27,17 +27,17 @@ export default class SessionsRouter extends CustomRouter {
 
     this.create(
       "/google",
-      ["ADMIN"],
+      ["PUBLIC"],
       passport.authenticate("google", { scope: ["email", "profile"] })
     );
 
     this.read(
       "/google/callback",
+      ["PUBLIC"],
       passport.authenticate("google", {
         session: false,
         failureRedirect: "/api/sessions/badauth",
       }),
-      ["PUBLIC"],
       async (req, res, next) => {
         try {
           return res.json({
@@ -52,9 +52,9 @@ export default class SessionsRouter extends CustomRouter {
 
     this.create(
       "/register",
+      ["PUBLIC"],
       has8char,
       passCallBack("register"),
-      ["PUBLIC"],
       async (req, res, next) => {
         try {
           return res.json({ statusCode: 201, message: "Registered!" });
@@ -66,8 +66,8 @@ export default class SessionsRouter extends CustomRouter {
 
     this.create(
       "/signout",
-      passCallBack("jwt"),
       ["PUBLIC"],
+      passCallBack("jwt"),
       async (req, res, next) => {
         try {
           return res.clearCookie("token").json({
@@ -82,8 +82,8 @@ export default class SessionsRouter extends CustomRouter {
 
     this.create(
       "/me",
-      passCallBack("jwt"),
       ["PUBLIC"],
+      passCallBack("jwt"),
       async (req, res, next) => {
         try {
           const user = {

@@ -6,7 +6,7 @@ import passCallBack from "../../middlewares/passCallBack.mid.js";
 
 export default class ProductsRouter extends CustomRouter {
   init() {
-    this.create("/", passCallBack("jwt"), ["ADMIN"], async (req, res, next) => {
+    this.create("/", ["ADMIN"], passCallBack("jwt"), async (req, res, next) => {
       try {
         const data = req.body;
         const newProduct = await products.create(data);
