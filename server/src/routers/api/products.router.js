@@ -1,24 +1,12 @@
 import CustomRouter from "../CustomRouter.js";
 // import products from "../../data/fs/ProductManager.fs.js";
 import { products } from "../../data/mongo/Manager.mongo.js";
-import isAdmin from "../../middlewares/isAdmin.js";
 import passCallBack from "../../middlewares/passCallBack.mid.js";
+import { create } from "../../controllers/products.controller.js";
 
 export default class ProductsRouter extends CustomRouter {
   init() {
-    this.create("/", ["ADMIN"], passCallBack("jwt"), async (req, res, next) => {
-      try {
-        const data = req.body;
-        const newProduct = await products.create(data);
-        if (newProduct === "Missing data for product creation") {
-          return res.status(400).json({ success: false, error: newProduct });
-        } else {
-          return res.success201(newProduct);
-        }
-      } catch (error) {
-        return next(error);
-      }
-    });
+    this.create("/", ["ADMIN"], passCallBack("jwt"), create);
     
     this.read("/", ["PUBLIC"], async (req, res, next) => {
       try {

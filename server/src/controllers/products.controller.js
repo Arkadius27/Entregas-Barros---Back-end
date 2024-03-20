@@ -9,18 +9,17 @@ class ProductsController {
       const data = req.body;
       const newProduct = await this.model.create(data);
       if (newProduct === "Missing data for product creation") {
-        return res
-          .status(400)
-          .json({ success: false, error: newProduct });
+        return res.status(400).json({ success: false, error: newProduct });
       } else {
-        return res
-          .status(201)
-          .json({ success: true, statusCode: 201, response: newProduct });
+        return res.success201(newProduct);
       }
     } catch (error) {
       return next(error);
     }
-  };
+  }
 }
 
 export default ProductsController;
+const controller = new ProductsController();
+const create = controller.create;
+export { create };

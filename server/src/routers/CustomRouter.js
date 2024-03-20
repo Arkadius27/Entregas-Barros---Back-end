@@ -25,23 +25,23 @@ export default class CustomRouter {
   }
 
   responses = (req, res, next) => {
-    res.success200 = (payload) => res.status(200).json(payload);
-    res.success201 = (payload) => res.status(201).json(payload);
+    res.success200 = (payload) => res.json({ statusCode: 200, response: payload });
+    res.success201 = (payload) => res.json({ statusCode: 201, response: payload });
     res.error400 = (message) =>
-      res.status(400).json({ statusCode: 400, message });
+      res.json({ statusCode: 400, message });
     res.error401 = () =>
-      res.status(401).json({ statusCode: 401, message: "Bad Auth" });
+      res.json({ statusCode: 401, message: "Bad Auth." });
     res.error403 = () =>
-      res.status(403).json({ statusCode: 403, message: "Forbidden" });
+      res.json({ statusCode: 403, message: "Forbidden." });
     res.error404 = () =>
-      res.status(404).json({ statusCode: 404, message: "Not Found" });
+      res.json({ statusCode: 404, message: "Not Found!" });
     return next();
   };
 
   policies = (arrayOfPolicies) => async (req, res, next) => {
     try {
       if (arrayOfPolicies.includes("PUBLIC")) return next();
-    let token = req.cookies[token];
+    let token = req.cookies["token"];
     if (!token) {
       return res.error401();
     } else {
@@ -56,6 +56,8 @@ export default class CustomRouter {
           (role === 2 && arrayOfPolicies.includes("PREMIUM"))
         ) {
           const user = await users.readByEmail(email);
+          req.user = user;
+          return next();
         } else {
           return res.error403();
         }
