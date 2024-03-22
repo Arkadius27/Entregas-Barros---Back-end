@@ -1,29 +1,20 @@
 import CustomRouter from "../CustomRouter.js";
 import { users } from "../../data/mongo/Manager.mongo.js";
 import has8char from "../../middlewares/has8char.js";
-// import isValidPass from "../../middlewares/isValidPass.js";
 import passCallBack from "../../middlewares/passCallBack.mid.js";
 import passport from "passport";
+import {
+  createLogin,
+  createMe,
+  createRegister,
+  createSignout,
+  readBadAuth,
+  readGoogle,
+} from "../../controllers/sessions.controller.js";
 
 export default class SessionsRouter extends CustomRouter {
   init() {
-    this.create(
-      "/login",
-      ["PUBLIC"],
-      passCallBack("login"),
-      async (req, res, next) => {
-        try {
-          return res
-            .cookie("token", req.token, {
-              maxAge: 7 * 24 * 60 * 60,
-              httpOnly: true,
-            })
-            .json({ statusCode: 200, message: "Logged in!" });
-        } catch (error) {
-          return next(error);
-        }
-      }
-    );
+    this.create("/login", ["PUBLIC"], passCallBack("login"), createLogin);
 
     this.create(
       "/google",
@@ -38,16 +29,7 @@ export default class SessionsRouter extends CustomRouter {
         session: false,
         failureRedirect: "/api/sessions/badauth",
       }),
-      async (req, res, next) => {
-        try {
-          return res.json({
-            message: "Logged in with Google!",
-            session: req.session,
-          });
-        } catch (error) {
-          return next(error);
-        }
-      }
+      readGoogle
     );
 
     this.create(
@@ -55,58 +37,13 @@ export default class SessionsRouter extends CustomRouter {
       ["PUBLIC"],
       has8char,
       passCallBack("register"),
-      async (req, res, next) => {
-        try {
-          return res.json({ statusCode: 201, message: "Registered!" });
-        } catch (error) {
-          return next(error);
-        }
-      }
+      createRegister
     );
 
-    this.create(
-      "/signout",
-      ["PUBLIC"],
-      passCallBack("jwt"),
-      async (req, res, next) => {
-        try {
-          return res.clearCookie("token").json({
-            statusCode: 200,
-            message: "Signed out!",
-          });
-        } catch (error) {
-          return next(error);
-        }
-      }
-    );
+    this.create("/signout", ["PUBLIC"], passCallBack("jwt"), createSignout);
 
-    this.create(
-      "/me",
-      ["PUBLIC"],
-      passCallBack("jwt"),
-      async (req, res, next) => {
-        try {
-          const user = {
-            email: req.user.email,
-            role: req.user.role,
-            photo: req.user.photo,
-          };
-          return res.json({
-            statusCode: 200,
-            response: user,
-          });
-        } catch (error) {
-          return next(error);
-        }
-      }
-    );
+    this.create("/me", ["PUBLIC"], passCallBack("jwt"), createMe);
 
-    this.read("/badauth", ["PUBLIC"], (req, res, next) => {
-      try {
-        return res.json({ message: "Bad authentication" });
-      } catch (error) {
-        return next(error);
-      }
-    });
+    this.read("/badauth", ["PUBLIC"], readBadAuth);
   }
 }

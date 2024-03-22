@@ -21,15 +21,14 @@ body h4 {
 .navbar-brand img {
   height: 55px;
 }
-
-.card-container {
-  gap: 1rem;
-}
-
 .registration-container {
   display: flex;
   position: absolute;
   right: 0;
+}
+
+.card-container {
+  gap: 1rem;
 }
 
 #g_id_onload {

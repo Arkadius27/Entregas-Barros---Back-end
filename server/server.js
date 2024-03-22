@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import expressSession from "express-session";
 import sessionFileStore from "session-file-store";
 import MongoStore from "connect-mongo";
+import cors from "cors";
 
 import "dotenv/config.js";
 import dbConnection from "./src/utils/dbConnection.js";
@@ -58,6 +59,7 @@ server.use(express.urlencoded({ extended: true }));
 server.use(express.static(__dirname + "/public"));
 server.use(morgan("dev"));
 server.use(cookieParser());
+server.use(cors({ origin: true, credentials: true }));
 // MONOGO STORE
 server.use(
   expressSession({

@@ -2,79 +2,24 @@ import CustomRouter from "../CustomRouter.js";
 // import products from "../../data/fs/ProductManager.fs.js";
 import { products } from "../../data/mongo/Manager.mongo.js";
 import passCallBack from "../../middlewares/passCallBack.mid.js";
-import { create } from "../../controllers/products.controller.js";
+import {
+  create,
+  destroy,
+  read,
+  readOne,
+  update,
+} from "../../controllers/products.controller.js";
 
 export default class ProductsRouter extends CustomRouter {
   init() {
     this.create("/", ["ADMIN"], passCallBack("jwt"), create);
-    
-    this.read("/", ["PUBLIC"], async (req, res, next) => {
-      try {
-        const sortAndPaginate = {
-          limit: req.query.limit || 20,
-          page: req.query.page || 1,
-        }
-        const filter = {};
-        if (req.query.title) {
-          filter.title = new RegExp(req.query.title.trim(), "i");
-        }
-        if (req.query.price === "desc") {
-          sortAndPaginate.sort = { price: -1 };
-        } else {
-          sortAndPaginate.sort = { price: 1 };
-        }
-        const allProducts = await products.read({ filter, sortAndPaginate });
-        if (Array.isArray(allProducts)) {
-          return res.success200(allProducts);
-        } else {
-          return res.status(404).json({ success: false, error: allProducts });
-        }
-      } catch (error) {
-        return next(error);
-      }
-    });
-    
-    this.read("/:pid", ["PUBLIC"], async (req, res, next) => {
-      try {
-        const { pid } = req.params;
-        const oneProduct = await products.readOne(pid);
-        if (typeof oneProduct === "object") {
-          return res.success200(oneProduct);
-        } else {
-          return res.status(404).json({ success: false, error: oneProduct });
-        }
-      } catch (error) {
-        return next(error);
-      }
-    });
-    
-    this.update("/:pid", ["ADMIN"], async (req, res, next) => {
-      const { pid } = req.params;
-      const data = req.body;
-      const updatedProduct = await products.update(pid, data);
-      try {
-        if (typeof updatedProduct === "object") {
-          return res.success200(updatedProduct);
-        } else {
-          return res.status(400).json({ success: false, error: updatedProduct });
-        }
-      } catch (error) {
-        return next(error);
-      }
-    });
-    
-    this.destroy("/:pid", ["ADMIN"], async (req, res, next) => {
-      const { pid } = req.params;
-      const deletedProduct = await products.destroy(pid);
-      try {
-        if (typeof deletedProduct === "object") {
-          return res.success200(deletedProduct);
-        } else {
-          return res.status(400).json({ success: false, error: deletedProduct });
-        }
-      } catch (error) {
-        return next(error);
-      }
-    });
+
+    this.read("/", ["PUBLIC"], read);
+
+    this.read("/:pid", ["PUBLIC"], readOne);
+
+    this.update("/:pid", ["ADMIN"], update);
+
+    this.destroy("/:pid", ["ADMIN"], destroy);
   }
 }
